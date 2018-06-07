@@ -26,7 +26,7 @@
 <body>
   <script src="jquery-2.2.0.js"></script>
 	<div id="allmap"></div>
-  <div id="stores">tianhe stores:</div>
+  <div id="stores">stores:</div>
 </body>
 </html>
 <script type="text/javascript">
@@ -38,13 +38,14 @@
 	var myGeo = new BMap.Geocoder();
 	// 将地址解析结果显示在地图上,并调整地图视野
 
-  var tianhe = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/tianheStore.json'
+  var stores = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/stores_centergz.json'
   var locations = [];
-  $.ajax(tianhe).then(function(data){
+  var alladdress = [];
+  $.ajax(stores).then(function(data){
     parsedStore = JSON.parse(data);
     for (i = 0; i < parsedStore.length; i++) {
       address = parsedStore[i].address;
-      console.log(address);
+      alladdress.push(address);
       myGeo.getPoint(address, function(point){
         if (point) {
           // console.log(point);
@@ -71,7 +72,9 @@
 
   })
 
+  console.log(alladdress);
   console.log(locations);
+
   for (n = 0; n < locations.length; n++) {
     item = JSON.stringify(locations[n]);
     console.log(item);
