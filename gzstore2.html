@@ -46,9 +46,14 @@
       address = parsedStore[i].address;
       console.log(address);
       myGeo.getPoint(address, function(point){
-        map.addOverlay(new BMap.Marker(point));
-        if (point) {locations.push(point);}
-        else {locations.push("NA");}
+        if (point) {
+          // console.log(point);
+          map.addOverlay(new BMap.Marker(point));
+          locations.push(point);
+      }
+        else {
+          // console.log("NA");
+          locations.push({"lng":"NA", "lat":"NA"})}
 
         // item = JSON.stringify(parsedLatlng);
         // $("#trafficstatus").append(item + ',');
@@ -63,7 +68,14 @@
       }, "广州市");
     }
 
-    console.log(locations);
+
   })
+
+  console.log(locations);
+  for (n = 0; n < locations.length; n++) {
+    item = JSON.stringify(locations[n]);
+    console.log(item);
+    $("#stores").append(item + ',');
+  }
 
 </script>
