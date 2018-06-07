@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Tianhe Stores</title>
+</head>
+
+<body>
+  <div id="stores">tianhe stores:</div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="jquery-2.2.0.js"></script>
+  <script type="text/javascript">
+
+  var tianhe = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/tianheStore.json'
+
+  $.ajax(tianhe).then(function(data){
+    parsedStore = JSON.parse(data);
+    for (i = 0; i < parsedStore.length; i++) {
+      url = 'http://restapi.amap.com/v3/geocode/geo?address=' + parsedStore[i].address + '&city=guangzhou&key=6d36b554c5f27c3118007b83b5a68b44'
+      // console.log(url);
+      $.ajax(url).then(function(location){
+        console.log(location);
+      })
+    }
+  })
+
+  </script>
+
+</body>
+</html>

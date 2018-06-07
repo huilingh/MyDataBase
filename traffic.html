@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Traffic Status</title>
+</head>
+
+<body>
+  <div id="trafficstatus">traffic data should be here</div>
+
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> -->
+  <script src="jquery-2.2.0.js"></script>
+  <script type="text/javascript">
+  lat1 = 23.017212;
+  lon1 = 113.162134;
+  lat2 = 23.347828;
+  lon2 = 113.627241;
+  las = 0.05;
+  key = '6d36b554c5f27c3118007b83b5a68b44'
+  var traffic = [];
+
+  latCount = Math.ceil((lat2-lat1)/las+1);
+  lonCount = Math.ceil((lon2-lon1)/las+1);
+  console.log(lonCount + ',' + latCount);
+
+
+  for (latN = 0; latN <= latCount; latN++) {
+    latX=lat1+las*latN;
+    for (lonN = 0; lonN <= lonCount; lonN++) {
+      lonX=lon1+las*lonN;
+      latY = latX + las;
+      lonY = lonX + las;
+      url = 'http://restapi.amap.com/v3/traffic/status/rectangle?rectangle=' + lonX + ',' + latX + ';' + lonY + ',' + latY + '&level=4&&extensions=all&key=' + key
+      $.ajax(url).then(function(data){
+        traffic.push(data);
+        // item = JSON.stringify(data);
+        // console.log(item);
+        // $("#trafficstatus").append(item + ',');
+
+        var roads = data.trafficinfo.roads // array of roads for each rectangle
+        for (x = 0; x < roads.length; x++) {
+          // item = JSON.stringify(roads[x]);
+          // console.log(item);
+          // $("#trafficstatus").append(item + ',');
+
+          // split polyline latlngs for each road
+          latlng = roads[x].polyline.split(";");
+          for (y = 0; y < latlng.length; y++) {
+            var point =
+            {
+                "name": roads[x].name,
+                "location": latlng[y],
+                "angle": roads[x].angle,
+                "direction": roads[x].direction,
+                "speed": roads[x].speed,
+                "status": roads[x].status
+            }
+            console.log(point);
+            item = JSON.stringify(point);
+            $("#trafficstatus").append(item + ',');
+          }
+        }
+      });
+    }
+  }
+
+  console.log(traffic);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,
+    #allmap {
+      position: absolute;
+      right: 0px;
+      left: 200px;
+      height: 100%;
+      font-family:"微软雅黑";
+      z-index: 0;},
+    #stores {
+        position: absolute;
+        width: 200px;
+        left: 0px;
+        height: 100%;
+        z-index: 100;
+    }
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=a6XQ3TSDSncCquLBFzsEUQIPb8pksSkH"></script>
+	<title>地址解析</title>
+</head>
+<body>
+  <script src="jquery-2.2.0.js"></script>
+	<div id="allmap"></div>
+  <div id="stores">tianhe stores:</div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(113.317361,23.115899);
+	map.centerAndZoom(point,12);
+	// 创建地址解析器实例
+	var myGeo = new BMap.Geocoder();
+	// 将地址解析结果显示在地图上,并调整地图视野
+
+  var tianhe = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/tianheStore.json'
+  var locations = [];
+  $.ajax(tianhe).then(function(data){
+    parsedStore = JSON.parse(data);
+    for (i = 0; i < parsedStore.length; i++) {
+      address = parsedStore[i].address;
+      console.log(address);
+      myGeo.getPoint(address, function(point){
+        map.addOverlay(new BMap.Marker(point));
+        if (point) {locations.push(point);}
+        else {locations.push("NA");}
+
+        // item = JSON.stringify(parsedLatlng);
+        // $("#trafficstatus").append(item + ',');
+
+        // if (point) {
+        //   map.centerAndZoom(point, 16);
+        //   map.addOverlay(new BMap.Marker(point));
+        //   console.log(point);
+        // }else{
+        //   alert("您选择地址没有解析到结果!");
+        // }
+      }, "广州市");
+    }
+
+    console.log(locations);
+  })
+
+</script>
