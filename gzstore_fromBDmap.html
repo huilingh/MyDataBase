@@ -31,14 +31,14 @@
 </html>
 <script type="text/javascript">
 	// 百度地图API功能
-	var map = new BMap.Map("allmap");
-	var point = new BMap.Point(113.317361,23.115899);
-	map.centerAndZoom(point,12);
+	// var map = new BMap.Map("allmap");
+	// var point = new BMap.Point(113.317361,23.115899);
+	// map.centerAndZoom(point,12);
 	// 创建地址解析器实例
 	var myGeo = new BMap.Geocoder();
 	// 将地址解析结果显示在地图上,并调整地图视野
 
-  var stores = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/yuexiuStore.json'
+  var stores = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/dgstores.json'
   var locations = [];
   var alladdress = [];
   $.ajax(stores).then(function(data){
@@ -49,7 +49,7 @@
       myGeo.getPoint(address, function(point){
         if (point) {
           // console.log(point);
-          map.addOverlay(new BMap.Marker(point));
+          // map.addOverlay(new BMap.Marker(point));
           locations.push(point);
       }
         else {
@@ -66,7 +66,7 @@
         // }else{
         //   alert("您选择地址没有解析到结果!");
         // }
-      }, "广州市");
+      }, "东莞市");
     }
 
 

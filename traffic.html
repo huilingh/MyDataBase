@@ -12,6 +12,7 @@
 
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> -->
   <script src="jquery-2.2.0.js"></script>
+  <script src="transFunctions.js"></script>
   <script type="text/javascript">
   lat1 = 23.017212;
   lon1 = 113.162134;
@@ -20,6 +21,7 @@
   las = 0.05;
   key = '6d36b554c5f27c3118007b83b5a68b44'
   var traffic = [];
+  var roadPoints = [];
 
   latCount = Math.ceil((lat2-lat1)/las+1);
   lonCount = Math.ceil((lon2-lon1)/las+1);
@@ -41,17 +43,16 @@
 
         var roads = data.trafficinfo.roads // array of roads for each rectangle
         for (x = 0; x < roads.length; x++) {
-          // item = JSON.stringify(roads[x]);
-          // console.log(item);
-          // $("#trafficstatus").append(item + ',');
-
-          // split polyline latlngs for each road
-          latlng = roads[x].polyline.split(";");
+          latlng = roads[x].polyline.split(";"); // split polyline latlngs for each road
           for (y = 0; y < latlng.length; y++) {
+            var latY = parseFloat(latlng[y].split(",")[1]);
+            var lonY = parseFloat(latlng[y].split(",")[0]);
+            var transCoord = coordtransform.gcj02towgs84(lonY,latY);
             var point =
             {
                 "name": roads[x].name,
-                "location": latlng[y],
+                "coord_raw": latlng[y],
+                "coord_transed": transCoord[0] + "," + transCoord[1],
                 "angle": roads[x].angle,
                 "direction": roads[x].direction,
                 "speed": roads[x].speed,

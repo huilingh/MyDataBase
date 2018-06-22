@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Bus Station</title>
+</head>
+
+<body>
+  <div id="info"></div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="jquery-2.2.0.js"></script>
+  <script src="transFunctions.js"></script>
+  <script type="text/javascript">
+  lat1 = 23.017212;
+  lon1 = 113.162134;
+  lat2 = 23.347828;
+  lon2 = 113.627241;
+  las = 0.1;
+  key = '6d36b554c5f27c3118007b83b5a68b44'
+
+  latCount = Math.ceil((lat2-lat1)/las+1);
+  lonCount = Math.ceil((lon2-lon1)/las+1);
+  console.log(lonCount + ',' + latCount);
+
+  // get gz bus stations
+  // for (page = 0; page < 100; page++) {
+  //   url = 'http://restapi.amap.com/v3/place/text?keywords=公交车站&city=广州&offset=25&page=' + page + '&key=6d36b554c5f27c3118007b83b5a68b44'
+  //   $.ajax(url).then(function(data){
+  //     for (i = 0; i <25; i++) {
+  //       item = JSON.stringify(data.pois[i]);
+  //       console.log(data.pois[i]);
+  //       $("#info").append(item + ',');
+  //     }
+  //   })
+  // }
+  //
+  // console.log(station);
+
+  // get gz parking lots
+  // for (page = 0; page < 100; page++) {
+  //   var url = 'http://restapi.amap.com/v3/place/text?types=150907&city=guangzhou&offset=25&page=' + page + '&key=6d36b554c5f27c3118007b83b5a68b44'
+  //   console.log(url);
+  //   $.ajax(url).then(function(data){
+  //     for (i = 0; i <25; i++) {
+  //       var point =
+  //       {
+  //           "id": data.pois[i].id,
+  //           "name": data.pois[i].name,
+  //           "type": data.pois[i].type,
+  //           "typecode": data.pois[i].typecode,
+  //           "address": data.pois[i].address,
+  //           "location": data.pois[i].location,
+  //           "cityname": data.pois[i].cityname,
+  //           "adname": data.pois[i].adname,
+  //           "business_area": data.pois[i].business_area,
+  //           "parking_type": data.pois[i].parking_type,
+  //       };
+  //       console.log(point);
+  //       item = JSON.stringify(point);
+  //       $("#info").append(item + ',');
+  //     }
+  //   })
+  // }
+
+  // get dg bus stations (transformed coordinates)
+  for (page = 0; page < 100; page++) {
+    url = 'http://restapi.amap.com/v3/place/text?keywords=公交车站&city=东莞&offset=25&page=' + page + '&key=6d36b554c5f27c3118007b83b5a68b44'
+    $.ajax(url).then(function(data){
+      for (i = 0; i <25; i++) {
+        var latY = parseFloat(data.pois[i].location.split(",")[1]);
+        var lonY = parseFloat(data.pois[i].location.split(",")[0]);
+        var transCoord = coordtransform.gcj02towgs84(lonY,latY);
+        var point =
+        {
+            "id": data.pois[i].id,
+            "name": data.pois[i].name,
+            "type": data.pois[i].type,
+            "typecode": data.pois[i].typecode,
+            "address": data.pois[i].address,
+            "location": data.pois[i].location,
+            "transed_lng": transCoord[0],
+            "transed_lon": transCoord[1],
+            "cityname": data.pois[i].cityname,
+            "adname": data.pois[i].adname,
+            "business_area": data.pois[i].business_area
+        };
+        console.log(point);
+        item = JSON.stringify(point);
+        $("#info").append(item + ',');
+      }
+    })
+  }
+
+  </script>
+
+</body>
+</html>
