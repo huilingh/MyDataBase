@@ -38,7 +38,7 @@
 	var myGeo = new BMap.Geocoder();
 	// 将地址解析结果显示在地图上,并调整地图视野
 
-  var stores = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/dgstores.json'
+  var stores = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/json/futian_stores.json'
   var locations = [];
   var alladdress = [];
   $.ajax(stores).then(function(data){
@@ -66,7 +66,7 @@
         // }else{
         //   alert("您选择地址没有解析到结果!");
         // }
-      }, "东莞市");
+      }, "深圳市");
     }
 
 

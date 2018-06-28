@@ -65,9 +65,9 @@
   //   })
   // }
 
-  // get dg bus stations (transformed coordinates)
+  // get bus stations (transformed coordinates)
   for (page = 0; page < 100; page++) {
-    url = 'http://restapi.amap.com/v3/place/text?keywords=公交车站&city=东莞&offset=25&page=' + page + '&key=6d36b554c5f27c3118007b83b5a68b44'
+    url = 'http://restapi.amap.com/v3/place/text?keywords=公交车站&city=深圳&offset=25&page=' + page + '&key=6d36b554c5f27c3118007b83b5a68b44'
     $.ajax(url).then(function(data){
       for (i = 0; i <25; i++) {
         var latY = parseFloat(data.pois[i].location.split(",")[1]);
