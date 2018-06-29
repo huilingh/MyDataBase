@@ -24,6 +24,7 @@
 	<title>地址解析</title>
 </head>
 <body>
+	<script src="transFunctions.js"></script>
   <script src="jquery-2.2.0.js"></script>
 	<div id="allmap"></div>
   <div id="stores">stores:</div>
@@ -38,9 +39,10 @@
 	var myGeo = new BMap.Geocoder();
 	// 将地址解析结果显示在地图上,并调整地图视野
 
-  var stores = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/json/futian_stores.json'
+  var stores = 'https://raw.githubusercontent.com/huilingh/MyDataBase/master/json/szstores1.json'
   var locations = [];
   var alladdress = [];
+	var transedlatlng = [];
   $.ajax(stores).then(function(data){
     parsedStore = JSON.parse(data);
     for (i = 0; i < parsedStore.length; i++) {
@@ -76,7 +78,15 @@
   console.log(locations);
 
   for (n = 0; n < locations.length; n++) {
-    item = JSON.stringify(locations[n]);
+		var latY = locations[n].lat;
+		var lonY = locations[n].lng;
+		var transCoord = coordtransform.gcj02towgs84(lonY,latY);
+		var transPoint = {
+			"transed_lat": transCoord[1],
+			"transed_lng": transCoord[0]
+		}
+		transedlatlng.push(transPoint);
+    item = JSON.stringify(transPoint);
     console.log(item);
     $("#stores").append(item + ',');
   }
