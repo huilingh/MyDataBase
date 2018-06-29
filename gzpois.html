@@ -25,19 +25,6 @@
   lonCount = Math.ceil((lon2-lon1)/las+1);
   console.log(lonCount + ',' + latCount);
 
-  // get gz bus stations
-  // for (page = 0; page < 100; page++) {
-  //   url = 'http://restapi.amap.com/v3/place/text?keywords=公交车站&city=广州&offset=25&page=' + page + '&key=6d36b554c5f27c3118007b83b5a68b44'
-  //   $.ajax(url).then(function(data){
-  //     for (i = 0; i <25; i++) {
-  //       item = JSON.stringify(data.pois[i]);
-  //       console.log(data.pois[i]);
-  //       $("#info").append(item + ',');
-  //     }
-  //   })
-  // }
-  //
-  // console.log(station);
 
   // get gz parking lots
   // for (page = 0; page < 100; page++) {
@@ -66,8 +53,37 @@
   // }
 
   // get bus stations (transformed coordinates)
+  // for (page = 0; page < 100; page++) {
+  //   url = 'http://restapi.amap.com/v3/place/text?keywords=公交车站&city=深圳&offset=25&page=' + page + '&key=6d36b554c5f27c3118007b83b5a68b44'
+  //   $.ajax(url).then(function(data){
+  //     for (i = 0; i <25; i++) {
+  //       var latY = parseFloat(data.pois[i].location.split(",")[1]);
+  //       var lonY = parseFloat(data.pois[i].location.split(",")[0]);
+  //       var transCoord = coordtransform.gcj02towgs84(lonY,latY);
+  //       var point =
+  //       {
+  //           "id": data.pois[i].id,
+  //           "name": data.pois[i].name,
+  //           "type": data.pois[i].type,
+  //           "typecode": data.pois[i].typecode,
+  //           "address": data.pois[i].address,
+  //           "location": data.pois[i].location,
+  //           "transed_lng": transCoord[0],
+  //           "transed_lon": transCoord[1],
+  //           "cityname": data.pois[i].cityname,
+  //           "adname": data.pois[i].adname,
+  //           "business_area": data.pois[i].business_area
+  //       };
+  //       console.log(point);
+  //       item = JSON.stringify(point);
+  //       $("#info").append(item + ',');
+  //     }
+  //   })
+  // }
+
+  // get 居委会&村委会 (transformed coordinates)
   for (page = 0; page < 100; page++) {
-    url = 'http://restapi.amap.com/v3/place/text?keywords=公交车站&city=深圳&offset=25&page=' + page + '&key=6d36b554c5f27c3118007b83b5a68b44'
+    url = 'http://restapi.amap.com/v3/place/text?types=130106&city=广州&offset=25&page=' + page + '&key=6d36b554c5f27c3118007b83b5a68b44'
     $.ajax(url).then(function(data){
       for (i = 0; i <25; i++) {
         var latY = parseFloat(data.pois[i].location.split(",")[1]);
@@ -82,7 +98,7 @@
             "address": data.pois[i].address,
             "location": data.pois[i].location,
             "transed_lng": transCoord[0],
-            "transed_lon": transCoord[1],
+            "transed_lat": transCoord[1],
             "cityname": data.pois[i].cityname,
             "adname": data.pois[i].adname,
             "business_area": data.pois[i].business_area
