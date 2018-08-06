@@ -80,7 +80,7 @@
   for (n = 0; n < locations.length; n++) {
 		var latY = locations[n].lat;
 		var lonY = locations[n].lng;
-		var transCoord = coordtransform.gcj02towgs84(lonY,latY);
+		// var transCoord = coordtransform.gcj02towgs84(lonY,latY);
 		var transPoint = {
 			"transed_lat": transCoord[1],
 			"transed_lng": transCoord[0]

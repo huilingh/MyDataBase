@@ -14,11 +14,27 @@
   <script src="jquery-2.2.0.js"></script>
   <script src="transFunctions.js"></script>
   <script type="text/javascript">
-  lat1 = 23.017212;
-  lon1 = 113.162134;
-  lat2 = 23.347828;
-  lon2 = 113.627241;
-  las = 0.05;
+  // gz center area
+  // lat1 = 23.032;
+  // lon1 = 113.167;
+  // lat2 = 23.26;
+  // lon2 = 113.44;
+  // las = 0.05;
+
+  // sz center area
+  // lat1 = 22.439;
+  // lon1 = 113.856;
+  // lat2 = 22.67;
+  // lon2 = 114.215;
+  // las = 0.05;
+  //
+  // dg
+  lat1 = 22.645;
+  lon1 = 113.515;
+  lat2 = 23.158;
+  lon2 = 114.26;
+  las = 0.005;
+
   key = '6d36b554c5f27c3118007b83b5a68b44'
   var traffic = [];
   var roadPoints = [];
@@ -52,7 +68,8 @@
             {
                 "name": roads[x].name,
                 "coord_raw": latlng[y],
-                "coord_transed": transCoord[0] + "," + transCoord[1],
+                "transed_lng": transCoord[0],
+                "transed_lat": transCoord[1],
                 "angle": roads[x].angle,
                 "direction": roads[x].direction,
                 "speed": roads[x].speed,
